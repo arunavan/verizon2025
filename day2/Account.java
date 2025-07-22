@@ -1,11 +1,35 @@
 package com.verizon.training.day2;
 
 public class Account {
-	Integer acNumber;
-	String name;
-	Double balance;
-	static String bankName="ICICI";
-	Account(){
+	 Integer acNumber;
+	public String name;
+	protected Double balance;
+	
+	
+	
+	public Integer getAcNumber() {
+		return acNumber;
+	}
+	public void setAcNumber(Integer acNumber) {
+		this.acNumber = acNumber;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public static String getBankName() {
+		return bankName;
+	}
+	public static void setBankName(String bankName) {
+		Account.bankName = bankName;
+	}
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+	public static String bankName="ICICI";
+	public Account(){
 		System.out.println("parent");
 		acNumber=1234;
 		name="Ram";
@@ -29,7 +53,7 @@ public class Account {
 		int interest=89;
 		balance=balance+amount;
 	}
-	void getBalance() {
+	public void getBalance() {
 		System.out.println("Balance:"+balance+"  ");
 	}
 public static void main(String[] args) {
