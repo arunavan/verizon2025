@@ -1,7 +1,5 @@
 package day3;
 
-import day3.exceptions.Demo;
-
 class super1{
 	
 }
