@@ -1,0 +1,132 @@
+1.Write Java programs MyMath.java , MyMathDemo.java  to check given methods.
+  com.verizon.util
+        Class Name: Utility
+	Methods:  
+	1. public static boolean isPerfectNumber(int n);
+		a perfect number is a positive integer that is equal to the sum of its positive divisors, 
+                excluding the number itself.
+		all its factors except the number itself, returns true if the given
+		number is a perfect number else returns false		
+	2. public static long factorial(int n);
+		returns factorial of the given number
+
+   com.verizon.ui
+		Tester Class Name: Test.java
+			Test the methods of Test class
+
+TestCases:
+Input:  6
+            True
+
+            28
+            True
+
+
+2. Find sum of first given number of Fibonacci digits.
+
+package com.verizon;
+import java.util.*;
+public class SumOfFibonacci {
+	public static int sumOfFibonacci(int n){
+		 // implement 
+		return d;
+	}
+	public static void main(String[] args) {
+		Scanner s=new Scanner(System.in);
+		int n=s.nextInt();
+		System.out.println(sumOfFibonacci(n));
+	}
+}
+
+TestCase:
+input   :3
+logic    :1+1+2
+output:4
+
+3.Create Employee.java and InvalidAdharException.java
+
+Create a class Person with following data members
+	Long adharCard,  
+	String  name,  
+	String address, 
+	String email , 
+	Long mobile
+
+	Note: use wrapper class types rather than primitive types
+
+	All the persons stay in a colony named, "Verizon Colony", declare 
+	a static data member named,  colonyName
+	
+	provide default constructor
+	provide 1-arg constructor that receives adharCard number 
+        provide all-arg constructor	
+	provide getter and setter methods for all the data members
+	provide String representation of the class
+
+Create  InvalidAdharException.java and throw this exception if adhar number is read from main method if it is not 12 digits.
+
+
+4. Write below java classes to display list of  Booknames and Highest price of Book.
+		1.public List<String> getBookNames(List<Book> bookList);
+      	        2.public double getHighPricedBook(List<Car> bookList);
+ 
+-com.verizon.model
+------------------------------------------
+public class Book {
+	
+	private String bookName; // Java,Oracle
+	private double price;  // ex: 999.99, 1299.99
+	
+	public Book() {
+		
+	}
+}
+
+com.verizon.service
+----------------------------------------------------------------
+public interface BookService{
+	
+	public List<String> getBookNames(List<Book> bookList);
+	
+	public double getHighPrice(List<Book> bookList);
+	
+}
+
+//Implement the above interface using Stream API in com.verizon.service
+
+public class BookServiceImpl implements BookService{
+	public List<String> getBookNames(List<Book> bookList){
+	}
+	
+	public double getHighPrice(List<Book> bookList){ 
+	}
+
+}
+
+
+--------------------------------------------------------
+com.verizon.ui
+public class BookApp{
+	public static void main(String[] args){
+		Book books[]= {
+						new Book("Java",999.99),
+						new Book("Oracle",9900.00),
+									
+					};
+		List<Book> bookList = new ArrayList<>(Arrays.asList(books));
+		try {
+			//TODO
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+TestCase:
+
+ Java
+Oracle
+
+9900.00
+
