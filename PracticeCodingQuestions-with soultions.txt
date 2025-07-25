@@ -1,0 +1,438 @@
+1.Write Java programs MyMath.java , MyMathDemo.java  to check given methods.
+  com.verizon.util
+        Class Name: Utility
+	Methods:  
+	1. public static boolean isPerfectNumber(int n);
+		a perfect number is a positive integer that is equal to the sum of its positive divisors, 
+                excluding the number itself.
+		all its factors except the number itself, returns true if the given
+		number is a perfect number else returns false		
+	2. public static long factorial(int n);
+		returns factorial of the given number
+
+   com.verizon.ui
+		Tester Class Name: Test.java
+			Test the methods of Test class
+
+
+
+Solution:
+package com.verizon.util;
+public class Utility {
+    public static boolean isPerfectNumber(int n) {
+        if (n <= 0) return false;
+        int sum = 0;
+        for (int i = 1; i <= n / 2; i++) {
+            if (n % i == 0) {
+                sum += i;
+            }
+        }
+        return sum == n;
+    }
+    public static long factorial(int n) {
+        if (n < 0) throw new IllegalArgumentException("Factorial not defined for negative numbers");
+         long result = 1;
+        for (int i = 2; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+}
+package com.verizon.ui;
+import com.verizon.util.Utility;
+public class Test {
+    public static void main(String[] args) {
+        int[] perfectTestNumbers = {6, 28, 12, 496};
+        for (int number : perfectTestNumbers) {
+            System.out.println("Is " + number + " a perfect number? " + Utility.isPerfectNumber(number));
+        }
+        int[] factorialTestNumbers = {0, 1, 5, 7};
+        for (int number : factorialTestNumbers) {
+            System.out.println("Factorial of " + number + " is: " + Utility.factorial(number));
+        }
+    }
+}
+
+
+
+
+2. Find sum of first given number of Fibonacci digits.
+
+package com.verizon;
+import java.util.*;
+public class SumOfFibonacci {
+	public static int sumOfFibonacci(int n){
+		 // implement 
+		return d;
+	}
+	public static void main(String[] args) {
+		Scanner s=new Scanner(System.in);
+		int n=s.nextInt();
+		System.out.println(sumOfFibonacci(n));
+	}
+}
+
+Solution:
+package com.verizon;
+
+import java.util.*;
+public class SumOfFibonacci {
+    public static int sumOfFibonacci(int n) {
+        if (n <= 0) return 0;
+        if (n == 1) return 0; // First Fibonacci number is 0
+        if (n == 2) return 1; // 0 + 1
+        int a = 0, b = 1;
+        int sum = a + b;
+        for (int i = 3; i <= n; i++) {
+            int c = a + b;
+            sum += c;
+            a = b;
+            b = c;
+        }
+        return sum;
+    }
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter how many Fibonacci numbers to sum: ");
+        int n = s.nextInt();
+        System.out.println("Sum of first " + n + " Fibonacci numbers: " + sumOfFibonacci(n));
+    }
+}
+
+3.Create Person.java and InvalidAdharException.java
+
+Create a class Person with following data members
+	Long adharCard,  
+	String  name,  
+	String address, 
+	String email , 
+	Long mobile
+
+	Note: use wrapper class types rather than primitive types
+
+	All the persons stay in a colony named, "Verizon Colony", declare 
+	a static data member named,  colonyName
+	
+	provide default constructor
+	provide 1-arg constructor that receives adharCard number 
+        provide all-arg constructor	
+	provide getter and setter methods for all the data members
+	provide String representation of the class
+
+Create  InvalidAdharException.java and throw this exception if adhar number is read from main method if it is not 12 digits.
+
+
+Solution:
+
+package com.verizon;
+public class InvalidAdharException extends Exception {
+    public InvalidAdharException(String message) {
+        super(message);
+    }
+}
+
+
+package com.verizon;
+public class Person {
+    private Long adharCard;
+    private String name;
+    private String address;
+    private String email;
+    private Long mobile;
+
+    public static String colonyName = "Verizon Colony";
+
+    // Default constructor
+    public Person() {
+        // No-args
+    }
+
+    // 1-arg constructor
+    public Person(Long adharCard) {
+        this.adharCard = adharCard;
+    }
+
+    // All-args constructor
+    public Person(Long adharCard, String name, String address, String email, Long mobile) {
+        this.adharCard = adharCard;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.mobile = mobile;
+    }
+
+    // Getters and Setters
+    public Long getAdharCard() {
+        return adharCard;
+    }
+
+    public void setAdharCard(Long adharCard) {
+        this.adharCard = adharCard;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(Long mobile) {
+        this.mobile = mobile;
+    }
+
+    @Override
+    public String toString() {
+        return "Person [adharCard=" + adharCard + ", name=" + name + ", address=" + address + 
+               ", email=" + email + ", mobile=" + mobile + ", colony=" + colonyName + "]";
+    }
+}
+
+package com.verizon;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.print("Enter 12-digit Adhar number: ");
+            String adharInput = sc.nextLine();
+            if (!adharInput.matches("\\d{12}")) {
+                throw new InvalidAdharException("Invalid Adhar Number. Must be exactly 12 digits.");
+            }
+            Long adharNumber = Long.parseLong(adharInput);
+            Person p = new Person(adharNumber, "Alice", "Pune", "alice@verizon.com", 9876543210L);
+            System.out.println("Person created:\n" + p);
+        } catch (InvalidAdharException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+
+
+
+
+4. Custom Exception + Finally Block
+·         Create a custom exception `LowBalanceException`. Write a `BankAccount` class that throws this exception if withdrawal goes below ₹1000. Demonstrate usage with try-catch-finally.
+
+Solution:
+package com.verizon;
+public class LowBalanceException extends Exception {
+    public LowBalanceException(String message) {
+        super(message);
+    }
+}
+
+package com.verizon;
+public class BankAccount {
+    private String accountHolder;
+    private double balance;
+    public static final double MIN_BALANCE = 1000.0;
+    public BankAccount(String accountHolder, double initialBalance) {
+        this.accountHolder = accountHolder;
+        this.balance = initialBalance;
+    }
+    public void withdraw(double amount) throws LowBalanceException {
+        if (balance - amount < MIN_BALANCE) {
+            throw new LowBalanceException("Withdrawal would bring balance below ₹1000. Current balance: ₹" + balance);
+        }
+        balance -= amount;
+        System.out.println("Withdrawal of ₹" + amount + " successful. Remaining balance: ₹" + balance);
+    }
+    public double getBalance() {
+        return balance;
+    }
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+    @Override
+    public String toString() {
+        return "BankAccount [accountHolder=" + accountHolder + ", balance=₹" + balance + "]";
+    }
+}
+
+package com.verizon;
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("Aruna V", 5000.0);
+
+        try {
+            System.out.println("Attempting to withdraw ₹4500...");
+            account.withdraw(4500);
+        } catch (LowBalanceException e) {
+            System.err.println("Exception: " + e.getMessage());
+        } finally {
+            System.out.println("Final balance in account: ₹" + account.getBalance());
+            System.out.println("Transaction completed.");
+        }
+    }
+}
+
+
+5. Write below java classes to display list of  Booknames and Highest price of Book.
+		1.public List<String> getBookNames(List<Book> bookList);
+      	        2.public double getHighPricedBook(List<Car> bookList);
+ 
+-com.verizon.model
+------------------------------------------
+public class Book {
+	
+	private String bookName; // Java,Oracle
+	private double price;  // ex: 999.99, 1299.99
+	
+	public Book() {
+		
+	}
+}
+
+com.verizon.service
+----------------------------------------------------------------
+public interface BookService{
+	
+	public List<String> getBookNames(List<Book> bookList);
+	
+	public double getHighPrice(List<Book> bookList);
+	
+}
+
+//Implement the above interface using Stream API in com.verizon.service
+
+public class BookServiceImpl implements BookService{
+	public List<String> getBookNames(List<Book> bookList){
+	}
+	
+	public double getHighPrice(List<Book> bookList){ 
+	}
+
+}
+
+
+--------------------------------------------------------
+com.verizon.ui
+public class BookApp{
+	public static void main(String[] args){
+		Book books[]= {
+						new Book("Java",999.99),
+						new Book("Oracle",9900.00),
+									
+					};
+		List<Book> bookList = new ArrayList<>(Arrays.asList(books));
+		try {
+			//TODO
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+
+Solution:
+package com.verizon.model;
+public class Book {
+    private String bookName;
+    private double price;
+    public Book() {
+    }
+    public Book(String bookName, double price) {
+        this.bookName = bookName;
+        this.price = price;
+    }
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Book [bookName=" + bookName + ", price=" + price + "]";
+    }
+}
+
+
+package com.verizon.service;
+import java.util.List;
+import com.verizon.model.Book;
+public interface BookService {
+    public List<String> getBookNames(List<Book> bookList);
+    public double getHighPrice(List<Book> bookList);
+}
+
+
+package com.verizon.service;
+import java.util.List;
+import java.util.stream.Collectors;
+import com.verizon.model.Book;
+public class BookServiceImpl implements BookService {
+    @Override
+    public List<String> getBookNames(List<Book> bookList) {
+        return bookList.stream()
+                       .map(Book::getBookName)
+                       .collect(Collectors.toList());
+    }
+    @Override
+    public double getHighPrice(List<Book> bookList) {
+        return bookList.stream()
+                       .mapToDouble(Book::getPrice)
+                       .max()
+                       .orElse(0.0);
+    }
+}
+
+package com.verizon.ui;
+import java.util.*;
+import com.verizon.model.Book;
+import com.verizon.service.BookService;
+import com.verizon.service.BookServiceImpl;
+public class BookApp {
+    public static void main(String[] args) {
+        Book books[] = {
+            new Book("Java", 999.99),
+            new Book("Oracle", 9900.00),
+            new Book("Spring Boot", 2500.00)
+        };
+        List<Book> bookList = new ArrayList<>(Arrays.asList(books));
+        BookService bookService = new BookServiceImpl();
+        try {
+            List<String> names = bookService.getBookNames(bookList);
+            System.out.println("Book Names: " + names);
+            double highPrice = bookService.getHighPrice(bookList);
+            System.out.println("Highest Priced Book: ₹" + highPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
