@@ -1,6 +1,7 @@
 package day6.collections;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,8 @@ public class ListDemo {
 		}
 		
 		LinkedList a1=new LinkedList<>();
+		
+	//	Collections.synchronizedList(null)
 		a1.add(90);
 		a1.add(78);
 		a1.add(80);
