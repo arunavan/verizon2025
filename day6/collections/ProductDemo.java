@@ -3,6 +3,7 @@ package day6.collections;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 class Product{
 	Integer id;
@@ -67,13 +68,35 @@ public class ProductDemo {
 
 		productList.forEach(p->System.out.println(p));
 		// task1 delete product for given id
-		//task2 display price of give product id
+		int id=30;
+		Iterator i=productList.iterator();
+		while(i.hasNext()) {
+			Product o=(Product)i.next();
+			if(o.id==id)
+				i.remove();
+		}
+		/*
+		 * for( Product p:productList) { if(p.id==id) productList.remove(id) }
+		 */
+		productList.forEach(p->System.out.println(p));
+		int id1=20;
+		Iterator i1=productList.iterator();
+		//task2 display price of give product id 20
+		System.out.println(" price of product of id:20");
+		while(i1.hasNext()) {
+			Product o=(Product)i1.next();
+			if(o.id==id1)
+				System.out.println(o.getPrice());
+		}
+		
+		
+		
 		//sort products based on price
 		
-		Collections.sort(productList,new PriceComparator());
-		productList.forEach(p->System.out.println(p));
-		Comparator<Product> comp=(p1,p2)->p1.price.intValue()-p2.price.intValue();
-		productList.stream().sorted(comp).forEach(p->System.out.println(p));
+	//	Collections.sort(productList,new PriceComparator());
+	//	productList.forEach(p->System.out.println(p));
+	//	Comparator<Product> comp=(p1,p2)->p1.getPrice().intValue()-p2.getPrice().intValue();
+	//	productList.stream().sorted(comp).forEach(p->System.out.println(p));
 		
 	}
 
