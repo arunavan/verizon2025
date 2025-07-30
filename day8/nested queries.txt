@@ -1,0 +1,169 @@
+Table: Employees
+
+create table employees(employeeid int primary key, name varchar(20),departmentid int, salary int);
+
+insert into employees values(1,'Alice',101,60000),(2,	'Bob',	102	,55000),(3	Charlie	101	70000),
+(4,	'David',	103	,50000),
+(5,	'Eve',	102,	65000);
+
+create  table  departments(DepartmentID int primary key,DepartmentName varchar(20));
+
+insert into departments values(
+101	,'HR'
+102,	'IT'
+103	,'Finance');
+
+
+Sample data:
+=============================
+EmployeeID	Name	DepartmentID	Salary
+1	Alice	101	60000
+2	Bob	102	55000
+3	Charlie	101	70000
+4	David	103	50000
+5	Eve	102	65000
+Table: Departments
+DepartmentID	DepartmentName
+101	HR
+102	IT
+103	Finance
+
+Example 1: Find Employees with Salary Above Average in Their Department
+
+SELECT Name, Salary
+FROM Employees e
+WHERE Salary > (
+    SELECT AVG(Salary)
+    FROM Employees
+    WHERE DepartmentID = e.DepartmentID
+);
+
+Example 2: List Departments with More Than One Employee
+
+SELECT DepartmentName
+FROM Departments d
+WHERE (
+    SELECT COUNT(*)
+    FROM Employees e
+    WHERE e.DepartmentID = d.DepartmentID
+) > 1;
+
+
+Example 3: Find the Highest Paid Employee in Each Department
+
+SELECT Name, Salary, DepartmentID
+FROM Employees e1
+WHERE Salary = (
+    SELECT MAX(Salary)
+    FROM Employees e2
+    WHERE e2.DepartmentID = e1.DepartmentID
+);
+
+
+
+
+SELECT employee_name
+FROM employees
+WHERE department_id IN (
+    SELECT department_id
+    FROM departments
+    WHERE location = 'India'
+);
+
+
+
+Examples
+Consider the following sample table to execute nested queries on these.
+
+Table: employees table
+
+emp_id    emp_name  dept_id
+
+1 John 1
+2 Mary 2
+3 Bob  1
+4 Alice 3
+5 Tom 1
+
+Table: departments table
+
+dept_id dept_name
+
+1  Sales
+2 Marketing
+3 Finance
+
+Table: sales table
+
+sale_id  emp_id sale_amt
+
+1 1  1000
+
+2 2 2000
+
+3 3  3000
+
+
+Example 1: Find the names of all employees in the Sales department.
+
+Required query
+
+SELECT emp_name 
+FROM employees 
+WHERE dept_id IN (SELECT dept_id 
+   FROM departments 
+   WHERE dept_name = 'Sales');
+Output
+emp_name
+
+John
+
+Bob
+
+Tom
+
+Example 2: Find the names of all employees who have made a sale
+
+Required query
+
+SELECT emp_name 
+FROM employees 
+WHERE EXISTS (SELECT emp_id 
+   FROM sales 
+   WHERE employees.emp_id = sales.emp_id);
+Output
+emp_name
+
+John
+
+Mary
+
+Bob
+
+Alice
+
+Tom
+
+This query selects all employees from the "employees" table where there exists a sale record in the "sales" table for that employee.
+
+Example 3: Find the names of all employees who have made sales greater than $1000.
+
+Required query
+
+SELECT emp_name 
+FROM employees 
+WHERE emp_id = ALL (SELECT emp_id 
+   FROM sales 
+   WHERE sale_amt > 1000);
+Output
+emp_name
+
+John
+
+Mary
+
+Bob
+
+Alice
+
+Tom
