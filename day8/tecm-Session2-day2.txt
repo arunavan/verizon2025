@@ -1,0 +1,139 @@
+use techm;
+
+show tables;
+
+desc customer;
+select * from account123;
+select * from customer;
+# to insert into all columns
+insert into account123 values(101,'icici',10000,20000,1299);
+
+# to insert into spesific columns
+insert into account123(id,bname) values(102,'AXIS');
+insert into account123 values(103,'KOTAK',null,null,null);
+
+# to insert multiple records 
+insert into account123 values(104,'HSBC',null,null,null),(105,'HDFC',null,null,null);
+
+
+
+#update - DML
+update account123 set balance=10000;
+update account123  set interest=999 where id=103;
+update account123 set balamount=30000,interest=2000 where id=104;
+update account123 set balamount=30000,bname='SBI' where id=105;
+
+
+#delete
+delete from account123 where id=102;
+delete from account123 where id=103;
+show tables;
+create table accounts as select * from account123;
+select * from accounts;
+delete from accounts;
+select * from accounts;
+create table accounts as select * from account123;
+select * from accounts;
+delete from accounts;
+show tables;
+
+select * from account123;
+select * from account123 order by balance;
+select * from account123 order by balance desc;
+select * from account123 order by bname desc;
+select id,bname from account123;
+select concat(id, bname) from account123;
+select * from account123 where id<108;
+select * from account123 where not id>108;
+select * from account123 where not bname='HSBC';
+select * from account123 where balance not between 20000 and 50000;
+select * from account123 where balance not in (10000,60000,90000);
+select bname,lower(bname),upper(bname) from account123;
+select bname,length(bname) from account123;
+select bname,substr(bname,2,4) from account123;
+
+
+select * from account123;
+select id,bname from account123;
+select id,bname from account123 where id<=105;
+select id,bname,balance from account123 order by balance desc;
+select id,bname, balance/12 ,balance+1000 from account123 ;
+select id,bname from account123 where balance not in (11000,61000,51000);
+select * from account123 where balance not between 10000 and 50000;
+select * from account123 where bname not like 'i%';
+select bname,length(bname),lower(bname),upper(bname),substr(bname,2,4) from account123;
+select concat(bname,balance) from account123;
+
+#DCL  - Data control language
+
+grant select/insert/update/delete /all to user on table1,table2....;
+.....
+revoke select/insert/update/delete/all from user on tabl1,table2..;
+
+
+# TCL
+set autocommit=off;
+select * from account1;
+savepoint a;
+delete from account1 where id=101;
+savepoint b;
+delete from account1 where id=105;
+savepoint c;
+delete from account1 where id=110;
+rollback to a;
+commit;
+
+
+
+create table account3 as select * from account123;
+select * from account3;
+set autocommit=off;
+savepoint a;
+delete from account3 where id=104;
+savepoint b;
+delete from account3 where id=111;
+savepoint c;
+delete from account3 where id=110;
+rollback to c;
+rollback to b;
+rollback to a;
+commit;
+
+
+#aggregate functions
+#sum , avergae,max,min,count
+create table skillset(id int primary key,skill varchar(10),score int,credits int);
+insert into skillset values(1,'java',9,3),(2,'python',6,2),(3,'spring',7,4),(4,'rest',6,2);
+insert into skillset values(5,'java',19,23),(6,'python',16,22),(7,'spring',7,4),(8,'spring',6,2);
+insert into skillset values(10,'java',9,3),(2,'python',6,2),(13,'java',7,4),(14,'java',6,2);
+select * from skillset;
+select sum(score) from skillset;
+select avg(score),avg(credits) from skillset;
+select max(score),max(credits) from skillset;
+select min(score),min(credits) from skillset;
+select count(score) from skillset;
+insert into skillset values(20,'java',null,null);
+select count(score) from skillset;
+select skill,sum(score),avg(Score),max(Score),min(Score),count(Score) from skillset group by skill;
+select skill,sum(score),avg(Score),max(Score),min(Score),count(Score) from skillset group by skill having (skill='java' or skill='python');
+
+
+# employee - department   - forign key- references
+create table dept(did int primary key,dname varchar(20),location varchar(20));
+insert into dept values(10,'it','hyd'),(20,'admin','chennai'),(30,'ops','pune');
+select * from dept;
+create table employee(eid int primary key, name varchar(20),sal int,did int references dept(did));
+insert into employee values(101,'ram',90000,30),(102,'kiran',80000,20),(103,'raj',60000,10),(104,'ramkumar',90000,20),(105,'rajkiran',80000,10),(106,'ramesh',60000,30);
+select * from employee;
+insert into employee values(107,'bindu',20000,90);
+insert into dept values(70,'infra','hyd')
+
+# example 2
+create table branch (bid int primary key, bname varchar(20),location varchar(20));
+desc branch;
+insert into branch values(1,'SBH-madhapur','hyderabad'),(2,'SBH-Gachibowli','hyderabad'),(3,'SBH-Kondapur','hyderabad');
+select * from branch;
+create table  bankcustomer( cid int primary key, name varchar(20),email varchar(20),bid int references branch(bid));
+desc bankcustomer;
+insert into bankcustomer values(1,'ram','ram@gmail.com',2),(2,'amith','amith@gmail.com',1),(3,'raj','raj@gmail.com',1),(4,'ramkumar','ramkumar@gmail.com',2);
+select * from bankcustomer;

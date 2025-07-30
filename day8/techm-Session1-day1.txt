@@ -1,0 +1,71 @@
+
+
+show databases;
+use training;
+show tables;
+# create new databse 
+# create database, create table -DDL
+
+create database techm;
+use techm;
+show tables;
+create table account(id int primary key, bname varchar(20));
+desc account;
+insert into account values(1,'icici',null,null);
+insert into account values(2,'axis',null,null);
+insert into account values(2,'AXIS','HYD','Madhapur');
+insert into account values (1,'ICICI'),(2,'KOTAK');
+select * from account;
+alter table account add balance int;
+alter table account modify balance varchar(10);
+alter table account add (branch varchar(10), city varchar(20));
+alter table account drop column city;
+alter table account rename column branch to bname123;
+select * from account;
+create table account123 as select * from account;
+show tables;
+# ddl  - create, alter,  truncate
+truncate table account;
+drop table account;
+
+create table cust as select * from customer;
+select * from cust;
+select * from cust123;
+create table cust123 as select * from cust;
+
+# constraints
+#primary key -- unique , cooant be null , not null
+#not null
+# unique 
+#check
+use techm;
+create table eyemployee(empid int primary key,name varchar(20), designation varchar(10));
+insert into eyemployees values( 1,'raj','se');
+insert into eyemployees values( 1,'kiran','se');
+insert into eyemployees values(null,'sita','sse');
+create table eyemployee1(empid int primary key,name varchar(20), designation varchar(10) not null);
+insert into eyemployee1 values(3,'sita','qa');
+insert into eyemployee1 values(4,'sita',null);
+create table eyemployee2(empid int primary key,name varchar(20), designation varchar(10) unique);
+insert into eyemployee2 values(3,'sita','qa');
+insert into eyemployee2 values(4,'gita','admin');
+create table eyemployee3(empid int primary key,name varchar(20), designation varchar(10) unique,sal int check(sal<10000));
+insert into eyemployee3 values(4,'gita','admin',2000);
+desc eyemployee2;
+
+
+create database fms;
+use fms;
+show tables;
+#create
+create table customer(cid int primary key ,cname varchar(20) not null,email varchar(20) unique, balance int check (balance<50000));
+insert into customer values(1,'ram','ram@gmail.com',45000);
+insert into customer values(2,'ram2','ram2@gmail.com',35000);
+insert into customer values(3,'raj','ram3@gmail.com',45000);
+insert into customer values(4,'raj','ram3@gmail.com',45000);
+create table cust1  as select * from customer;
+select * from customer;
+truncate table cust1;
+drop table cust1;
+alter table  customer add column city varchar(10);
+alter table custmer drop column city;
