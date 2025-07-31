@@ -1,0 +1,70 @@
+Exception Handling in MySQL
+1
+2
+3
+Exception handling in MySQL is crucial for managing errors and ensuring that stored procedures, functions, triggers, and events run smoothly. Proper error handling prevents users from seeing system-generated error messages that may be confusing and helps programmers debug their code effectively.
+
+Using DECLARE ... HANDLER Statement
+
+In MySQL, you can handle exceptions using the DECLARE ... HANDLER statement. This statement allows you to specify actions to take when certain conditions occur during the execution of a stored procedure.
+
+Syntax
+
+DECLARE {EXIT | CONTINUE} HANDLER
+FOR condition_value [, condition_value]
+statement;
+EXIT: Terminates the stored procedure when the specified condition occurs.
+
+CONTINUE: Continues the execution of the stored procedure when the specified condition occurs.
+
+condition_value: Specifies the conditions that activate the handler. It can be a MySQL error code, SQLSTATE value, SQLWARNING, NOT FOUND, or SQLEXCEPTION.
+
+
+
+
+CREATE TABLE users (
+user_id INT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(50) UNIQUE NOT NULL,
+email VARCHAR(50) NOT NULL
+);
+
+DELIMITER //
+
+CREATE PROCEDURE insert_user(
+IN p_username VARCHAR(50),
+IN p_email VARCHAR(50)
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLSTATE '23000'
+BEGIN
+SELECT 'Error: Duplicate username. Please choose a different username.' AS Message;
+END;
+
+INSERT INTO users (username, email) VALUES (p_username, p_email);
+SELECT 'User inserted successfully' AS Message;
+END //
+
+DELIMITER ;
+
+CALL insert_user('jane', 'jane@example.com');
+
+CALL insert_user('jane', 'jane@example.com');
+
+
+Error Handler Precedence
+
+When multiple handlers are defined for the same error, MySQL calls the most specific handler first. For example:
+
+DECLARE EXIT HANDLER FOR 1062 SELECT 'Duplicate entry' AS errorMessage;
+DECLARE EXIT HANDLER FOR SQLEXCEPTION SELECT 'SQLEXCEPTION occurred' AS errorMessage;
+DECLARE EXIT HANDLER FOR SQLSTATE '23000' SELECT 'SQLSTATE 23000' AS errorMessage;
+
+In this case, the handler for error code 1062 will be called first if a duplicate entry error occurs
+
+23000 - integrity constraint violation.
+45000 - unhandled user defined exception
+1062   - duplicate key error/exception
+1045   - Access denied
+1146   - Table does not exist
+
+

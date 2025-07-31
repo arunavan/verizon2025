@@ -1,0 +1,160 @@
+CREATE TABLE emps(
+id INT PRIMARY KEY,
+dept VARCHAR(10),
+city VARCHAR(20)
+);
+
+DROP PROCEDURE IF EXISTS insertEmps;
+
+declare exit 
+
+DELIMITER //
+CREATE PROCEDURE insertEmps(IN empId INT, IN dept VARCHAR(10), IN city VARCHAR(20))
+BEGIN
+DECLARE EXIT HANDLER FOR 1062
+BEGIN
+SELECT CONCAT("duplicate entry for the emp id ",empId) AS errorMessage;
+END;
+INSERT INTO emps VALUES(empId,dept,city);
+SELECT * FROM emps WHERE id = empId;
+END 
+//
+DELIMITER ;
+
+CALL insertEmps(101,"IT","Mumbai");
+
+declare continue
+
+DELIMITER //
+CREATE PROCEDURE insertEmps1(IN empId INT, IN dept VARCHAR(10), IN city VARCHAR(20))
+BEGIN
+DECLARE CONTINUE HANDLER FOR 1062
+BEGIN
+SELECT CONCAT("duplicate entry for the emp id ",empId) AS errorMessage;
+END;
+INSERT INTO emps VALUES(empId,dept,city);
+SELECT * FROM emps WHERE id = empId;
+END 
+//
+DELIMITER ;
+
+
+CALL insertEmps1(102,"IT","Mumbai");
+
+DELIMITER //
+  CREATE PROCEDURE example(IN degree VARCHAR(20), OUT full_form Varchar(50))
+    BEGIN
+       IF degree='B-Tech' THEN SET full_form = 'Bachelor of Technology'; 
+      ELSEIF degree='M-Tech' THEN SET full_form = 'Master of Technology'; 
+      ELSEIF degree='BSC' THEN SET full_form = 'Bachelor of Science';
+      ELSEIF degree='MSC' THEN SET full_form = 'Master of Science';
+      ELSE
+         SIGNAL SQLSTATE '01000'
+      SET MESSAGE_TEXT = 'Choose from the existing values', MYSQL_ERRNO = 12121;
+         SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Given degree is not valid', MYSQL_ERRNO = 1001;
+      END IF;
+   END //
+ DELIMITER ;
+CALL example('BSC', @fullform)
+SELECT @fullform
+
+
+
+DELIMITER //
+  CREATE PROCEDURE example1(num INT)
+    BEGIN
+       DECLARE testCondition CONDITION FOR SQLSTATE '45000';
+       IF num < 0 THEN
+          SIGNAL SQLSTATE '01000';
+       ELSEIF num > 150 THEN
+          SIGNAL SQLSTATE '45000';
+       END IF;
+    END //
+  DELIMITER ;
+
+ CALL example1(15);
+CALL example1(160);
+
+
+ DELIMITER $$  
+ CREATE PROCEDURE getDivision (IN numerator INT, IN denominator INT, OUT res 
+double)  
+ BEGIN  
+    DECLARE Division_By_Zero CONDITION FOR SQLSTATE '45000';  
+    DECLARE CONTINUE HANDLER FOR Division_By_Zero   
+    RESIGNAL SET MESSAGE_TEXT = 'The denominator cannot be zero';  
+     
+    IF denominator = 0 THEN  
+        SIGNAL Division_By_Zero;  
+    ELSE  
+        SET res := numerator / denominator;  
+    END IF;  
+ END $$  
+ DELIMITER ;  
+
+call getDivision(10,0,@res);
+ select @res;
+
+call getDivision(10,2,@res);
+ select @res;
+
+
+DELIMITER //
+CREATE PROCEDURE sample_proc()
+BEGIN
+    DECLARE CONTINUE HANDLER FOR SQLWARNING
+        SELECT 'Warning occurred';
+   DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        SELECT 'Error occurred';
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SELECT 'No data found';
+   SELECT * FROM emp WHERE id = 99999;
+END //
+
+DELIMITER ;
+
+
+
+SQL Warning:
+
+select * from emps;
+insert into emps values(105,'XXXXXXXXXXXXXXXXXXXX','Chennai');
+show warnings;
+
+
+
+
+
+DELIMITER $$
+CREATE PROCEDURE demo_warning()
+BEGIN
+    DECLARE dummy INT;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SELECT 'Warning occurred' AS message;
+        END;
+   SET dummy = 1 / 0;  -- will cause division by zero
+END$$
+
+DELIMITER ;
+
+CALL demo_warning();
+
+
+
+
+DELIMITER $$
+CREATE PROCEDURE HandleSQLWarning()
+BEGIN
+    DECLARE warning_message VARCHAR(255);
+    DECLARE CONTINUE HANDLER FOR SQLWARNING
+    BEGIN
+        SET warning_message = 'A warning occurred!';
+        SELECT warning_message;
+    END;
+    INSERT INTO some_table (id, name) VALUES (1, 'Test')
+    ON DUPLICATE KEY UPDATE name = 'Updated';
+    SELECT 'Procedure executed successfully!';
+END$$
+DELIMITER ;
