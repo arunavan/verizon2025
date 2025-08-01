@@ -1,0 +1,114 @@
+unit5
+===========
+<dependency>
+  		<groupId>org.junit.jupiter</groupId>
+  		<artifactId>junit-jupiter-api</artifactId>
+  		<version>5.0.1</version>
+  		<scope>test</scope>
+   </dependency>
+  
+  <dependency>
+  	  <groupId>org.junit.jupiter</groupId>
+  	  <artifactId>junit-jupiter-engine</artifactId>
+  	  <version>5.0.1</version>
+  	  <scope>test</scope>
+  </dependency>
+  	  
+  <dependency>
+  	  <groupId>org.junit.platform</groupId>
+  	  <artifactId>junit-platform-launcher</artifactId>
+  	  <version>1.0.1</version>
+  	  <scope>test</scope>
+  </dependency>
+
+    
+
+
+MySQL:
+=========
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.24</version>
+</dependency>
+
+
+
+Spring-core:
+===============
+<dependencies>
+    <!-- Spring Core -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>6.1.3</version> <!-- Use a version that matches your project -->
+    </dependency>
+
+    <!-- Spring Beans -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>6.1.3</version>
+    </dependency>
+
+    <!-- Spring Context -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.3</version>
+    </dependency>
+
+    <!-- Spring AOP (optional) -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>6.1.3</version>
+    </dependency>
+
+    <!-- Spring Expression Language (SpEL) -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-expression</artifactId>
+        <version>6.1.3</version>
+    </dependency>
+</dependencies>
+
+
+
+
+beans.xml:
+============
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Define a simple bean -->
+    <bean id="myService" class="com.example.MyService">
+        <property name="message" value="Hello from XML!" />
+    </bean>
+
+    <!-- Define another bean that depends on myService -->
+    <bean id="app" class="com.example.App">
+        <property name="myService" ref="myService" />
+    </bean>
+
+</beans>
+
+
+
+   ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+    
+
+
+
+postgres:
+============
+
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.6.1</version>
+</dependency>
