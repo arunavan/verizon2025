@@ -1,0 +1,194 @@
+pom.xml
+==============
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.verizon</groupId>
+	<artifactId>springmvc</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springmvc</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		  <maven.compiler.source>1.8</maven.compiler.source>
+  <maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.1.0.RELEASE</version>
+		</dependency>
+
+		<!-- JSTL Dependency -->
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
+
+
+		
+
+		<!-- JSP Dependency -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+
+
+
+===================WEB-INF/views/home.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+
+<body>
+	   <h1> Telecommunication Portal : Homepage </h1>
+</body>
+</html>
+
+
+============================com.verizon.springmvc.config.AppConfig.java
+package com.verizon.springmvc.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "com.verizon.springmvc" }) //controller,model
+public class AppConfig {
+
+	@Bean
+	public InternalResourceViewResolver resolver() {
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setViewClass(JstlView.class);
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setSuffix(".jsp");
+		return resolver;
+	}
+
+}
+
+
+============================com.verizon.springmvc.config.SpringMvcDispatcherServletInitializer.java
+package com.verizon.springmvc.config;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+
+public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+ 
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+ 
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[] { AppConfig.class };
+	}
+ 
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+ 
+}
+
+============================================package com.verizon.springmvc.controller.HelloWorldController.java
+package com.verizon.springmvc.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.verizon.springmvc.model.HelloWorld;
+
+
+@Controller   //http://localhost:8080/springmvc/helloworld
+public class HelloWorldController {
+
+	@RequestMapping("/helloworld")
+	public String handler(Model model) {
+		
+		HelloWorld helloWorld = new HelloWorld();
+		helloWorld.setMessage("Welcome to SpringMVC session");
+		helloWorld.setDateTime(LocalDateTime.now().plusHours(1).toString());
+		model.addAttribute("x", helloWorld);
+		return "helloworld1";
+	}
+	
+	
+	@RequestMapping("/home")  //http://localhost:8080/springmvc/home
+	public String message() {
+		return "home";
+	}
+	
+	@RequestMapping("/welcome")  //http://localhost:8080/springmvc/home
+	public String messageWeclome() {
+		return "welcome";
+	}
+}
+=========================================om.verizon.springmvc.mode.HelloWorld.java
+package com.verizon.springmvc.model;
+
+public class HelloWorld {
+	private String message;
+	private String dateTime;
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
+	}
+}
