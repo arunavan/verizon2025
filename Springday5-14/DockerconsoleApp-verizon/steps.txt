@@ -1,0 +1,46 @@
+docker --version
+
+docker images
+
+docker ps -a
+
+
+steps:
+
+mkdir  java-app 
+
+----> create CustomerApp.java
+
+class CustomerApp{  
+public static void main(String[] args){  
+System.out.println("This is CustomerApp app \n by using Docker");  
+}  
+}  
+
+create Dockerfile in same folder:
+----->create Dockerfile
+
+FROM  openjdk:17-jdk-slim
+COPY . /var/www/java  
+WORKDIR /var/www/java  
+RUN javac Demo.java  
+CMD ["java", "Demo"]  
+
+--------> move the the java-docker-app folder 
+Docker cli commands at   >
+
+docker image build  -t  java-app   .              ====> creating image
+
+docker run java-app                    =====> creating and run container 
+docker images                      ===> display images
+docker ps -a                                   ====> display container /running processses  names
+docker tag java-app arunajav567/java-app:latest     => tagging local image to remote image
+docker push arunajava567/java-app:latest               ==> pushing image to hub      .
+
+
+
+
+
+
+
+docker run java-app   -> local container running

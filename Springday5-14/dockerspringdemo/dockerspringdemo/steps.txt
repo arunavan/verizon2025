@@ -1,0 +1,32 @@
+
+-> create Dockerfile in root path of springboot project
+
+-> run mvn clean install 
+
+--->jar is created in target folder
+
+From openjdk:8
+copy ./target/xxx.jar xxx.jar
+CMD ["java","-jar","xxx.jar"]
+
+
+-> to build image
+
+docker image build -t docker-veri-app .
+
+-> to create container
+
+docker container run --name docker-veri-app -p 8082:8082 -d docker-veri-app
+
+-> to display logs of container created called product
+
+
+docker container logs docker-veri-app
+docker container logs -f docker-veri-app
+
+
+docker push product-app --local to docker hub
+
+
+docker pull product-app  -- docker hub to local
+
