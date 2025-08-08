@@ -1,0 +1,213 @@
+✅ Step 1: Project Setup
+Use https://start.spring.io to generate the project with:
+
+Dependencies: Spring Web, Spring Data JPA, H2 Database (or MySQL/PostgreSQL), Lombok
+
+pom.xml (relevant parts)
+xml
+Copy
+Edit
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
+</dependencies>
+✅ Step 2: Define PlanType Enum
+java
+Copy
+Edit
+package com.example.subscriber.model;
+
+public enum PlanType {
+    PREPAID,
+    POSTPAID
+}
+✅ Step 3: Create Subscriber Entity
+java
+Copy
+Edit
+package com.example.subscriber.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Subscriber {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String mobileNumber;
+
+    @Enumerated(EnumType.STRING)
+    private PlanType planType;
+
+    private String region;
+}
+✅ Step 4: Create Repository
+java
+Copy
+Edit
+package com.example.subscriber.repository;
+
+import com.example.subscriber.model.Subscriber;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SubscriberRepository extends JpaRepository<Subscriber, Long> {
+}
+✅ Step 5: Create Service Layer
+java
+Copy
+Edit
+package com.example.subscriber.service;
+
+import com.example.subscriber.model.Subscriber;
+import com.example.subscriber.repository.SubscriberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SubscriberService {
+
+    @Autowired
+    private SubscriberRepository repository;
+
+    public Subscriber saveSubscriber(Subscriber subscriber) {
+        return repository.save(subscriber);
+    }
+
+    public List<Subscriber> getAllSubscribers() {
+        return repository.findAll();
+    }
+
+    public Optional<Subscriber> getSubscriberById(Long id) {
+        return repository.findById(id);
+    }
+
+    public Subscriber updateSubscriber(Long id, Subscriber updatedSubscriber) {
+        return repository.findById(id)
+                .map(subscriber -> {
+                    subscriber.setName(updatedSubscriber.getName());
+                    subscriber.setMobileNumber(updatedSubscriber.getMobileNumber());
+                    subscriber.setPlanType(updatedSubscriber.getPlanType());
+                    subscriber.setRegion(updatedSubscriber.getRegion());
+                    return repository.save(subscriber);
+                })
+                .orElseThrow(() -> new RuntimeException("Subscriber not found"));
+    }
+
+    public void deleteSubscriber(Long id) {
+        repository.deleteById(id);
+    }
+}
+✅ Step 6: Create Controller
+java
+Copy
+Edit
+package com.example.subscriber.controller;
+
+import com.example.subscriber.model.Subscriber;
+import com.example.subscriber.service.SubscriberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/subscribers")
+public class SubscriberController {
+
+    @Autowired
+    private SubscriberService service;
+
+    @PostMapping
+    public ResponseEntity<Subscriber> addSubscriber(@RequestBody Subscriber subscriber) {
+        return ResponseEntity.ok(service.saveSubscriber(subscriber));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Subscriber>> getAll() {
+        return ResponseEntity.ok(service.getAllSubscribers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Subscriber> getById(@PathVariable Long id) {
+        return service.getSubscriberById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Subscriber> update(@PathVariable Long id, @RequestBody Subscriber subscriber) {
+        return ResponseEntity.ok(service.updateSubscriber(id, subscriber));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteSubscriber(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+✅ Step 7: application.properties
+properties
+Copy
+Edit
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+spring.jpa.show-sql=true
+✅ Sample POST Request (Postman)
+Endpoint: POST http://localhost:8080/subscribers
+Body (JSON):
+
+json
+Copy
+Edit
+{
+  "name": "John Doe",
+  "mobileNumber": "9876543210",
+  "planType": "PREPAID",
+  "region": "North"
+}
+✅ Update Request (PUT)
+Endpoint: PUT http://localhost:8080/subscribers/1
+Body:
+
+json
+Copy
+Edit
+{
+  "name": "John Doe",
+  "mobileNumber": "9876543210",
+  "planType": "POSTPAID",
+  "region": "North"
+}

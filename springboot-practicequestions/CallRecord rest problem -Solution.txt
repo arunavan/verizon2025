@@ -1,0 +1,119 @@
+2. Call History API – With CallType as ENUM
+ Step 1: CallType Enum
+
+
+package com.example.callhistory.model;
+
+public enum CallType {
+    INCOMING,
+    OUTGOING
+}
+ Step 2: CallRecord Entity
+
+package com.example.callhistory.model;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CallRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String callerNumber;
+    private String receiverNumber;
+    private int durationSeconds;
+    private LocalDateTime callTime;
+    @Enumerated(EnumType.STRING)
+    private CallType callType;
+}
+ 
+Step 3: CallRecordRepository
+package com.example.callhistory.repository;
+import com.example.callhistory.model.CallRecord;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface CallRecordRepository extends JpaRepository<CallRecord, Long> {
+    List<CallRecord> findByCallerNumber(String callerNumber);
+}
+
+Step 4: CallRecordService
+
+package com.example.callhistory.service;
+
+import com.example.callhistory.model.CallRecord;
+import com.example.callhistory.repository.CallRecordRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+@Service
+public class CallRecordService {
+    @Autowired
+    private CallRecordRepository repository;
+    public CallRecord save(CallRecord record) {
+        return repository.save(record);
+    }
+    public List<CallRecord> findAll() {
+        return repository.findAll();
+    }
+    public List<CallRecord> findByCallerNumber(String callerNumber) {
+        return repository.findByCallerNumber(callerNumber);
+    }
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+}
+Step 5: CallRecordController
+
+package com.example.callhistory.controller;
+
+import com.example.callhistory.model.CallRecord;
+import com.example.callhistory.service.CallRecordService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/calls")
+public class CallRecordController {
+
+    @Autowired
+    private CallRecordService service;
+
+    @PostMapping
+    public CallRecord create(@RequestBody CallRecord record) {
+        return service.save(record);
+    }
+
+    @GetMapping
+    public List<CallRecord> getAll() {
+        return service.findAll();
+    }
+
+    @GetMapping("/caller/{callerNumber}")
+    public List<CallRecord> getByCaller(@PathVariable String callerNumber) {
+        return service.findByCallerNumber(callerNumber);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteById(id);
+    }
+}
+ Sample JSON for POST
+
+{
+  "callerNumber": "9999999999",
+  "receiverNumber": "8888888888",
+  "durationSeconds": 120,
+  "callTime": "2025-08-07T10:30:00",
+  "callType": "OUTGOING"
+}

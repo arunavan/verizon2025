@@ -1,0 +1,147 @@
+Data Usage Monitoring API – With DeviceType and NetworkType as Enums
+
+
+package com.example.datausage.model;
+public enum DeviceType {
+    SMARTPHONE,
+    DONGLE,
+    TABLET
+}
+
+public enum NetworkType {
+    G3,
+    G4,
+    G5
+}
+
+Step 2: DataUsage Entity
+
+package com.example.datausage.model;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDate;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class DataUsage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String userId;
+
+    @Enumerated(EnumType.STRING)
+    private DeviceType deviceType;
+
+    private double dataUsedInMB;
+
+    private LocalDate usageDate;
+
+    @Enumerated(EnumType.STRING)
+    private NetworkType networkType;
+}
+
+ Step 3: DataUsageRepository
+
+package com.example.datausage.repository;
+import com.example.datausage.model.DataUsage;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface DataUsageRepository extends JpaRepository<DataUsage, Long> {
+    List<DataUsage> findByUserId(String userId);
+    List<DataUsage> findByDeviceType(DeviceType deviceType);
+}
+
+ Step 4: DataUsageService
+
+package com.example.datausage.service;
+import com.example.datausage.model.DataUsage;
+import com.example.datausage.model.DeviceType;
+import com.example.datausage.repository.DataUsageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+@Service
+public class DataUsageService {
+    @Autowired
+    private DataUsageRepository repository;
+    public DataUsage save(DataUsage usage) {
+        return repository.save(usage);
+    }
+    public List<DataUsage> findAll() {
+        return repository.findAll();
+    }
+    public List<DataUsage> findByUser(String userId) {
+        return repository.findByUserId(userId);
+    }
+    public List<DataUsage> findByDeviceType(DeviceType deviceType) {
+        return repository.findByDeviceType(deviceType);
+    }
+    public DataUsage update(Long id, DataUsage updated) {
+        return repository.findById(id)
+                .map(existing -> {
+                    existing.setDeviceType(updated.getDeviceType());
+                    existing.setDataUsedInMB(updated.getDataUsedInMB());
+                    existing.setUsageDate(updated.getUsageDate());
+                    existing.setNetworkType(updated.getNetworkType());
+                    return repository.save(existing);
+                })
+                .orElseThrow(() -> new RuntimeException("Record not found"));
+    }
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+}
+ Step 5: DataUsageController
+package com.example.datausage.controller;
+import com.example.datausage.model.DataUsage;
+import com.example.datausage.model.DeviceType;
+import com.example.datausage.service.DataUsageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+@RestController
+@RequestMapping("/usage")
+public class DataUsageController {
+    @Autowired
+    private DataUsageService service;
+    @PostMapping
+    public DataUsage create(@RequestBody DataUsage usage) {
+        return service.save(usage);
+    }
+    @GetMapping
+    public List<DataUsage> getAll() {
+        return service.findAll();
+    }
+    @GetMapping("/user/{userId}")
+    public List<DataUsage> getByUser(@PathVariable String userId) {
+        return service.findByUser(userId);
+    }
+    @GetMapping("/device/{deviceType}")
+    public List<DataUsage> getByDevice(@PathVariable DeviceType deviceType) {
+        return service.findByDeviceType(deviceType);
+    }
+    @PutMapping("/{id}")
+    public DataUsage update(@PathVariable Long id, @RequestBody DataUsage usage) {
+        return service.update(id, usage);
+    }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteById(id);
+    }
+}
+ Sample JSON for POST
+{
+  "userId": "user123",
+  "deviceType": "SMARTPHONE",
+  "dataUsedInMB": 1024.5,
+  "usageDate": "2025-08-07",
+  "networkType": "G5"
+}
