@@ -1,0 +1,44 @@
+WebDriver Basics
+
+
+
+Open URL	driver.get("https://example.com")
+Get Title	driver.getTitle()
+Get Current URL	driver.getCurrentUrl()
+Find Element	driver.findElement(By.id("username"))
+Click	element.click()
+Type text	element.sendKeys("Hello")
+Clear text	element.clear()
+
+
+
+6. Locators in Selenium
+You can locate elements using:
+
+By.id("id")
+
+By.name("name")
+
+By.className("classname")
+
+By.tagName("tag")
+
+By.linkText("text")
+
+By.partialLinkText("partial")
+
+By.cssSelector("css")
+
+By.xpath("xpath")
+
+
+driver.findElement(By.cssSelector("#username"));
+driver.findElement(By.xpath("//input[@name='password']"));
+
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+
+
+TakesScreenshot ts = (TakesScreenshot) driver;
+File src = ts.getScreenshotAs(OutputType.FILE);
+FileUtils.copyFile(src, new File("screenshot.png"));
