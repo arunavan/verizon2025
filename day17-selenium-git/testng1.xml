@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CrossBrowserHeadedHeadlessSuite" parallel="tests" thread-count="4">
+
+    <!-- Chrome Headed -->
+    <test name="Chrome-Headed">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="mode" value="headed"/>
+        <classes>
+            <class name="com.verizon.CrossBrowserHeadedHeadlessTest"/>
+        </classes>
+    </test>
+
+    <!-- Chrome Headless -->
+    <test name="Chrome-Headless">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="mode" value="headless"/>
+        <classes>
+            <class name="com.verizon.CrossBrowserHeadedHeadlessTest"/>
+        </classes>
+    </test>
+
+    <!-- Firefox Headed -->
+    <test name="Firefox-Headed">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="mode" value="headed"/>
+        <classes>
+            <class name="com.verizon.CrossBrowserHeadedHeadlessTest"/>
+        </classes>
+    </test>
+
+    <!-- Firefox Headless -->
+    <test name="Firefox-Headless">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="mode" value="headless"/>
+        <classes>
+            <class name="com.verizon.CrossBrowserHeadedHeadlessTest"/>
+        </classes>
+    </test>
+
+</suite>
