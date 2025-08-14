@@ -1,0 +1,12 @@
+Feature: Belly
+
+  Scenario: a few cukes
+    Given I have 42 cukes in my belly
+    When I wait 1 minute
+    Then my belly should grow
+
+  Scenario: login
+    Given when i login
+    When add item to cart
+    Then able to checkout
+    
