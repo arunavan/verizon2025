@@ -1,0 +1,36 @@
+1. What is Selenium Grid?
+
+Selenium Grid lets you run Selenium tests in parallel across multiple machines, browsers, and operating systems.
+
+Think of it as a “remote control” for browsers on different computers.
+
+Hub → The central server where you send your tests. It knows which machine has which browser.
+
+Node → A machine that actually runs the browser sessions (Chrome, Firefox, etc.).
+
+Why Use It?
+
+Parallel execution → Run multiple tests at the same time.
+
+Cross-browser testing → Test on Chrome, Firefox, Edge, etc.
+
+Cross-platform → Run on Windows, Mac, Linux.
+
+Distributed testing → Use multiple computers for faster runs.
+
+
+
+ 
+java -jar  selenium-server-4.23.1.jar  hub
+
+
+
+
+Grid UI:
+==========
+http://192.168.29.106:4444
+
+
+Node:
+=========
+java -jar  selenium-server-4.23.1.jar  node
