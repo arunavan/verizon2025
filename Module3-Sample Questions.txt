@@ -1,0 +1,576 @@
+Problem Statement
+The QA team needs to ensure that the  Veritel web application works consistently across different browsers like Chrome, Firefox. Manual cross-browser testing is time-consuming, repetitive, and error-prone.
+
+We need an automated solution that:
+
+Runs the same set of tests on multiple browsers.
+
+Uses TestNG to handle parameterization and parallel execution.
+
+Uses Selenium WebDriver to interact with the browsers.
+
+Generates a consolidated test report
+
+
+
+testng.xml
+
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CrossBrowserSuite" parallel="tests" thread-count="3">
+    <test name="ChromeTest">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.CrossBrowserTest"/>
+        </classes>
+    </test>
+
+    <test name="FirefoxTest">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="tests.CrossBrowserTest"/>
+        </classes>
+    </test>
+
+    <test name="EdgeTest">
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="tests.CrossBrowserTest"/>
+        </classes>
+    </test>
+</suite>
+
+
+BowserFactory.java
+
+package utils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+public class BrowserFactory {
+    public static WebDriver getDriver(String browser) {
+        WebDriver driver;
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+            case "chrome":
+            default:
+                driver = new ChromeDriver();
+                break;
+        }
+        driver.manage().window().maximize();
+        return driver;
+    }
+}
+
+
+CrossBorwserTest.java
+
+package tests;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import utils.BrowserFactory;
+public class CrossBrowserTest {
+    WebDriver driver;
+    @Parameters("browser")
+    @BeforeMethod
+    public void setup(String browser) {
+        driver = BrowserFactory.getDriver(browser);
+        driver.get("https://example.com/login");
+    }
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+    @Test
+    public void testLoginPageTitle() {
+        String title = driver.getTitle();
+        Assert.assertEquals(title, "Login - Example", "Page title mismatch!");
+    }
+    @Test
+    public void testLoginFunctionality() {
+        driver.findElement(By.id("username")).sendKeys("validUser");
+        driver.findElement(By.id("password")).sendKeys("validPass");
+        driver.findElement(By.id("loginBtn")).click();
+        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"), "Login failed!");
+    }
+}
+
+2.  Problem Statement
+The Veritel  web application’s login page needs to be tested for valid and invalid credentials.
+Currently, credentials are hardcoded in test scripts, which makes test maintenance and expansion difficult.
+
+We want an automated solution that:
+Reads login test data (username, password, expected result) from an external CSV file.
+Uses TestNG’s @DataProvider to supply test data to the login test.
+Automates the login process with Selenium WebDriver.
+Validates both successful and unsuccessful login attempts
+
+
+
+data.csv
+
+username,password,expectedResult
+validUser@example.com,ValidPass123,success
+validUser@example.com,WrongPass,failure
+invalidEmail,SomePass,failure
+,ValidPass123,failure
+validUser@example.com,,failure
+
+
+CSVDataProvider.java
+
+package utils;
+import org.testng.annotations.DataProvider;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+public class CSVDataProvider {
+    @DataProvider(name = "loginData")
+    public static Iterator<Object[]> readCSV() throws IOException {
+        List<Object[]> testData = new ArrayList<>();
+        String filePath = System.getProperty("user.dir") + "/testdata/loginData.csv";
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        boolean header = true;
+        while ((line = reader.readLine()) != null) {
+            if (header) { // skip header row
+                header = false;
+                continue;
+            }
+            String[] data = line.split(",");
+            testData.add(new Object[]{data[0], data[1], data[2]});
+        }
+        reader.close();
+        return testData.iterator();
+    }
+}
+
+
+LoginTest.java
+
+package tests;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import utils.BrowserFactory;
+import utils.CSVDataProvider;
+public class LoginTest {
+    WebDriver driver;
+    @BeforeMethod
+    public void setup() {
+        driver = BrowserFactory.getDriver("chrome");
+        driver.get("https://your-vts-app-url.com/login");
+    }
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+    @Test(dataProvider = "loginData", dataProviderClass = CSVDataProvider.class)
+    public void testLogin(String username, String password, String expectedResult) {
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys(username);
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("loginBtn")).click();
+        if (expectedResult.equalsIgnoreCase("success")) {
+            Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"),
+                    "Expected login to succeed but it failed.");
+        } else {
+            String errorMsg = driver.findElement(By.id("errorMessage")).getText();
+            Assert.assertTrue(errorMsg.contains("Invalid") || errorMsg.contains("required"),
+                    "Expected error message for failed login but got none.");
+        }
+    }
+}
+
+
+
+
+3. Testing a Login Page 
+
+Question: 
+You are tasked with testing the login functionality of a VTS web application. What are the critical test scenarios you would cover? 
+
+You Should 
+Test the login functionality comprehensively, and consider the following scenarios: 
+
+Positive Test Scenarios: 
+
+Login with valid username and password. 
+
+Login after password recovery. 
+
+Login with different browsers and devices. 
+
+Negative Test Scenarios: 
+
+Attempt login with an incorrect password. 
+
+Use an invalid email format in the username field. 
+
+Try logging in without filling in any fields. 
+
+Boundary and Edge Cases: 
+
+Test password field with minimum and maximum allowable characters. 
+
+Test login with special characters in the username or password. 
+
+Security Scenarios: 
+
+Check for SQL injection vulnerabilities. 
+
+Verify that passwords are encrypted during submission. 
+
+Test multi-factor authentication if implemented. 
+
+Tip: 
+Employ automation for repetitive scenarios, especially when using QA Software testing tools such as Selenium or Junit or TestNg. 
+
+
+Java Solution – Selenium + TestNG Example
+
+src/test/java
+    ├── tests
+    │    └── LoginTests.java
+    ├── pages
+    │    └── LoginPage.java
+    ├── utils
+         └── BrowserFactory.java
+
+1. BrowserFactory.java – Browser Setup
+
+package utils;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class BrowserFactory {
+
+    public static WebDriver getDriver(String browser) {
+        WebDriver driver;
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+            case "chrome":
+            default:
+                driver = new ChromeDriver();
+                break;
+        }
+        driver.manage().window().maximize();
+        return driver;
+    }
+}
+
+2. LoginPage.java – Page Object
+
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class LoginPage {
+    WebDriver driver;
+
+    // Locators
+    private By usernameField = By.id("username");
+    private By passwordField = By.id("password");
+    private By loginBtn = By.id("loginBtn");
+    private By errorMsg = By.id("errorMessage");
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void enterUsername(String username) {
+        driver.findElement(usernameField).clear();
+        driver.findElement(usernameField).sendKeys(username);
+    }
+
+    public void enterPassword(String password) {
+        driver.findElement(passwordField).clear();
+        driver.findElement(passwordField).sendKeys(password);
+    }
+
+    public void clickLogin() {
+        driver.findElement(loginBtn).click();
+    }
+
+    public String getErrorMessage() {
+        return driver.findElement(errorMsg).getText();
+    }
+}
+
+3. LoginTests.java – Test Cases
+
+package tests;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import pages.LoginPage;
+import utils.BrowserFactory;
+
+public class LoginTests {
+    WebDriver driver;
+    LoginPage loginPage;
+
+    @Parameters({"browser"})
+    @BeforeMethod
+    public void setup(@Optional("chrome") String browser) {
+        driver = BrowserFactory.getDriver(browser);
+        driver.get("https://your-vts-app-url.com/login");
+        loginPage = new LoginPage(driver);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+
+    // Positive Test – Valid Login
+    @Test
+    public void testValidLogin() {
+        loginPage.enterUsername("validUser@example.com");
+        loginPage.enterPassword("ValidPassword123");
+        loginPage.clickLogin();
+        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"), "Login failed for valid credentials!");
+    }
+
+    // Positive Test – Login after Password Recovery
+    @Test
+    public void testLoginAfterPasswordRecovery() {
+        // Assume password already reset
+        loginPage.enterUsername("resetUser@example.com");
+        loginPage.enterPassword("NewPassword123");
+        loginPage.clickLogin();
+        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"));
+    }
+
+    // Negative Test – Wrong Password
+    @Test
+    public void testLoginWithWrongPassword() {
+        loginPage.enterUsername("validUser@example.com");
+        loginPage.enterPassword("WrongPassword");
+        loginPage.clickLogin();
+        Assert.assertEquals(loginPage.getErrorMessage(), "Invalid username or password.");
+    }
+
+    // Negative Test – Invalid Email Format
+    @Test
+    public void testInvalidEmailFormat() {
+        loginPage.enterUsername("invalid-email");
+        loginPage.enterPassword("SomePassword");
+        loginPage.clickLogin();
+        Assert.assertTrue(loginPage.getErrorMessage().contains("Enter a valid email"));
+    }
+
+    // Negative Test – Empty Fields
+    @Test
+    public void testEmptyFields() {
+        loginPage.enterUsername("");
+        loginPage.enterPassword("");
+        loginPage.clickLogin();
+        Assert.assertTrue(loginPage.getErrorMessage().contains("Fields cannot be empty"));
+    }
+
+    // Boundary Test – Minimum Password Length
+    @Test
+    public void testMinPasswordLength() {
+        loginPage.enterUsername("validUser@example.com");
+        loginPage.enterPassword("123"); // Assuming less than required length
+        loginPage.clickLogin();
+        Assert.assertTrue(loginPage.getErrorMessage().contains("minimum length"));
+    }
+
+    // Boundary Test – Special Characters in Username
+    @Test
+    public void testSpecialCharactersInUsername() {
+        loginPage.enterUsername("user@#example.com");
+        loginPage.enterPassword("ValidPassword123");
+        loginPage.clickLogin();
+        Assert.assertTrue(loginPage.getErrorMessage().contains("invalid username"));
+    }
+
+    // Security Test – SQL Injection
+    @Test
+    public void testSQLInjectionAttempt() {
+        loginPage.enterUsername("' OR '1'='1");
+        loginPage.enterPassword("' OR '1'='1");
+        loginPage.clickLogin();
+        Assert.assertTrue(loginPage.getErrorMessage().contains("Invalid username or password"));
+    }
+
+    // Security Test – Multi-factor Authentication (if implemented)
+    @Test
+    public void testMFAFlow() {
+        loginPage.enterUsername("mfaUser@example.com");
+        loginPage.enterPassword("ValidPassword123");
+        loginPage.clickLogin();
+        Assert.assertTrue(driver.getCurrentUrl().contains("otp")); // Redirect to OTP page
+    }
+}
+
+
+
+
+4: Testing a Mobile App 
+
+Question: 
+You are responsible for testing a mobile app that integrates with GPS and payment systems. What key areas would you focus on? 
+
+You Should 
+
+Positive Testing: 
+
+Validate GPS integration by simulating location changes. 
+
+Test payment gateway with various payment methods. 
+
+ 
+
+Negitive Testing: 
+
+Assess app responsiveness under high user loads. 
+
+Measure app performance in poor network conditions. 
+
+
+Solution:
+src/test/java
+    ├── tests
+    │    └── MobileAppTests.java
+    ├── utils
+    │    └── AppiumDriverFactory.java
+
+
+
+package utils;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class AppiumDriverFactory {
+
+    public static AppiumDriver getDriver(String platform) throws MalformedURLException {
+        DesiredCapabilities caps = new DesiredCapabilities();
+
+        if (platform.equalsIgnoreCase("android")) {
+            caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+            caps.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+            caps.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/apps/MyApp.apk");
+            caps.setCapability("automationName", "UiAutomator2");
+            return new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+
+        } else if (platform.equalsIgnoreCase("ios")) {
+            caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+            caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+            caps.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/apps/MyApp.app");
+            caps.setCapability("automationName", "XCUITest");
+            return new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+        }
+
+        throw new IllegalArgumentException("Unsupported platform: " + platform);
+    }
+}
+
+
+package tests;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import utils.AppiumDriverFactory;
+import java.net.MalformedURLException;
+public class MobileAppTests {
+    AppiumDriver driver;
+    @Parameters({"platform"})
+    @BeforeClass
+    public void setup(@Optional("android") String platform) throws MalformedURLException {
+        driver = AppiumDriverFactory.getDriver(platform);
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    // Positive Test – GPS Location Change Simulation
+    @Test
+    public void testGPSIntegration() {
+        driver.setLocation(new org.openqa.selenium.html5.Location(37.7749, -122.4194, 10)); // San Francisco
+        MobileElement locationLabel = (MobileElement) driver.findElementById("locationLabel");
+        Assert.assertTrue(locationLabel.getText().contains("San Francisco"), "GPS location not updated!");
+    }
+
+    // Positive Test – Payment Gateway with Credit Card
+    @Test
+    public void testPaymentWithCreditCard() {
+        driver.findElementById("payNowButton").click();
+        driver.findElementById("cardNumber").sendKeys("4111111111111111");
+        driver.findElementById("expiryDate").sendKeys("12/25");
+        driver.findElementById("cvv").sendKeys("123");
+        driver.findElementById("submitPayment").click();
+        Assert.assertTrue(driver.findElementById("paymentSuccessMessage").isDisplayed(), "Payment failed!");
+    }
+
+    // Positive Test – Payment with Digital Wallet
+    @Test
+    public void testPaymentWithDigitalWallet() {
+        driver.findElementById("payNowButton").click();
+        driver.findElementById("walletOption").click();
+        driver.findElementById("confirmWalletPayment").click();
+        Assert.assertTrue(driver.findElementById("paymentSuccessMessage").isDisplayed());
+    }
+
+    // Negative Test – High User Load Simulation
+    @Test
+    public void testAppUnderHighLoad() {
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 50; i++) { // Simulating 50 rapid operations
+            driver.findElementById("refreshButton").click();
+        }
+        long duration = System.currentTimeMillis() - start;
+        Assert.assertTrue(duration < 10000, "App response too slow under load!");
+    }
+
+    // Negative Test – Poor Network Condition Simulation
+    @Test
+    public void testAppPerformancePoorNetwork() {
+        // Simulate network throttling using tools like BrowserStack or OS settings
+        driver.findElementById("fetchDataButton").click();
+        long startTime = System.currentTimeMillis();
+
+        MobileElement dataLabel = (MobileElement) driver.findElementById("dataLabel");
+        long loadTime = System.currentTimeMillis() - startTime;
+
+        Assert.assertTrue(loadTime < 5000, "App too slow on poor network!");
+    }
+}
