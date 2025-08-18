@@ -1,0 +1,150 @@
+Problem statement 1 - JIRA 
+
+Step 1 – Create the Jira Project 
+
+
+https://arunajava567.atlassian.net/jira/projects?ProjectTypeLabel=Jira%20-%20software%20projects&keyword=scrum&page=1&sortKey=name&sortOrder=ASC&types=software
+
+Log in to Jira. 
+
+Click Create Project. 
+
+Choose Scrum template → Select Team-managed or Company-managed (recommended for workflows). 
+
+Give it a name like E-Commerce Web App. 
+
+Create the project. 
+
+
+
+Step 2 – Configure Issue Types 
+
+Go to Project Settings → Issue Types. 
+
+Add/verify the following types: 
+
+Story (for new features) 
+
+Bug (for defects) 
+
+Task (for technical work) 
+
+Set default fields like Summary, Description, Priority, Labels, Linked Issues. 
+
+
+
+Step 3 – Create User Stories and Bugs 
+
+Go to the Backlog. 
+
+Click Create and select Story. 
+
+Example: As a customer, I want to view product details so I can decide to purchase. 
+
+Create a few more stories. 
+
+Create Bug issues and link them to related stories: 
+
+Example Bug: Product images are not loading on the details page. 
+
+Use "Link Issue" → "is caused by" to connect bugs with their story. 
+
+Shape 
+
+Step 4 – Apply Labels and Priorities 
+
+Open each bug. 
+
+Add Labels like Critical, Major, Minor. 
+
+Set Priority field: 
+
+Highest for Critical bugs. 
+
+High for Major bugs. 
+
+Medium/Low for Minor bugs. 
+
+
+
+Step 5 – Plan the Sprint Backlog 
+
+In the Backlog view, create Sprint 2. 
+
+Move incomplete stories from Sprint 1 into Sprint 2. 
+
+Add all newly created bugs into Sprint 2 backlog. 
+
+Estimate story points for each item. 
+
+
+
+Step 6 – Customize Workflow 
+
+Go to Project Settings → Workflows. 
+
+For Bug type, edit workflow: 
+
+Add statuses: Open → In Progress → Ready for Testing → Closed. 
+
+Add transitions between them. 
+
+Publish the workflow. 
+
+
+
+Step 7 – Start the Sprint 
+
+Click Start Sprint. 
+
+Track progress daily by moving tasks between columns: 
+
+To Do 
+
+In Progress 
+
+Ready for Testing 
+
+Done 
+
+Shape 
+
+Step 8 – Monitor Using Burndown Chart 
+
+Go to Reports → Burndown Chart. 
+
+Check daily progress and scope changes. 
+
+If new bugs are found mid-sprint, create them and add to sprint backlog. 
+
+Shape 
+
+Step 9 – Create Dashboard for Real-Time Tracking 
+
+Click Dashboards → Create New Dashboard. 
+
+Add gadgets: 
+
+Filter Results (Open bugs by priority) 
+
+Sprint Health Gadget (Sprint completion %) 
+
+Created vs Resolved Chart 
+
+Pie Chart (Bugs grouped by status) 
+
+Shape 
+
+Step 10 – Sprint Review 
+
+At the end of the sprint, review: 
+
+Total completed issues. 
+
+Remaining bugs to be carried over. 
+
+Update release notes. 
+
+ 
+
+ 
