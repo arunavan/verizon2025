@@ -1,0 +1,63 @@
+1. Login Functionality Automation 
+
+You are asked to automate the login process for a web application using Selenium IDE. The login page has fields for username and password and a "Login" button. Describe the steps to: 
+
+Record the script that enters credentials and clicks "Login". 
+
+Add validation to check whether a successful login message or home page appears. 
+
+
+
+2. Form Validation with Assertions 
+
+A registration form requires users to fill in all fields and then submit. Automate the following scenario: 
+
+Record the process of submitting the form with some fields blank. 
+
+Insert assertions to verify that proper error messages are displayed for all required fields. 
+
+
+
+3. Shopping Cart Scenario 
+
+A user adds three items to a shopping cart and proceeds to checkout. Automate this scenario by: 
+
+Recording all steps to add specific items to the cart. 
+
+Navigating to the cart and verifying (using assertions) that the correct number of items have been added. 
+
+
+
+4. Handling Pop-ups and Alerts 
+
+You are automating a web application that displays a confirmation alert when deleting a record. Explain how you would: 
+
+Record a script to click on “Delete” for a record. 
+
+Handle the confirmation alert (accept/dismiss). 
+
+Verify that the record is deleted or not based on the alert response. 
+
+
+
+5. Testing Navigation Links 
+
+The home page contains several navigation links in the menu bar. Automate the testing of these navigation links so that: 
+
+Each link is clicked sequentially. 
+
+After each click, verify the URL or page header to ensure correct navigation. 
+
+Return to the home page after each validation. 
+
+
+
+6. Parameterized Test Execution 
+
+Suppose you need to run a search function with multiple search terms. Describe how you would: 
+
+Use Selenium IDE’s data-driven testing (CSV or data variables) to execute the same search scenario for several terms in a single test suite. 
+
+Validate that the correct search results page appears for each term. 
+
+ 
