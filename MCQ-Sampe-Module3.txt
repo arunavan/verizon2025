@@ -1,0 +1,452 @@
+Which type of testing is performed without executing the code? 
+a) Unit Testing 
+b) Integration Testing 
+c) Static Testing  
+d) System Testing 
+
+Regression testing is performed to: 
+a) Verify system speed 
+b) Check if new changes broke existing functionality  
+c) Measure database performance 
+d) Test network latency 
+
+Which is NOT a level of testing? 
+a) Unit Testing 
+b) Integration Testing 
+c) Validation Testing  
+d) System Testing 
+
+White-box testing focuses mainly on: 
+a) Requirements validation 
+b) Internal code structure  
+c) User interface feedback 
+d) Performance 
+
+In Agile, testing is done: 
+a) Only after development is completed 
+b) Iteratively throughout the sprint  
+c) Only by a separate testing team 
+d) At the end of the release cycle 
+
+Which document contains the expected results for a test case? 
+a) Test Strategy 
+b) Test Plan 
+c) Test Case  
+d) Traceability Matrix 
+
+Smoke testing is also known as: 
+a) Build Verification Testing  
+b) Regression Testing 
+c) Sanity Testing 
+d) Load Testing 
+
+In Jira, an Epic is: 
+a) A small task 
+b) A large body of work broken into smaller stories  
+c) A bug 
+d) A sprint 
+
+Which field in Jira is used to track the type of issue? 
+a) Status 
+b) Issue Type  
+c) Priority 
+d) Summary 
+
+Jira workflows define: 
+a) The design of the UI 
+b) The steps an issue follows from creation to closure  
+c) Test case formats 
+d) Sprint velocity 
+
+In Jira Scrum boards, the backlog contains: 
+a) Completed tasks 
+b) All work items yet to be assigned to a sprint  
+c) Defects only 
+d) Project documentation 
+
+Which Jira report shows sprint progress using remaining work? 
+a) Velocity Chart 
+b) Burndown Chart  
+c) Control Chart 
+d) Cumulative Flow Diagram 
+
+In Jira, story points measure: 
+a) Exact hours required 
+b) Relative effort to complete a task  
+c) Number of developers 
+d) Test case count 
+
+Selenium WebDriver is used for: 
+a) Mobile application testing only 
+b) Automating browser interactions  
+c) Performance testing 
+d) Database testing 
+
+Which language is NOT supported by Selenium? 
+a) Java 
+b) Python 
+c) PHP 
+d) COBOL  
+
+findElement(By.id("username")) in Selenium returns: 
+a) A list of matching elements 
+b) The first matching element  
+c) Null if no match is found 
+d) Page source 
+
+Which command is used to switch to a frame in Selenium? 
+a) driver.switchTo().frame()  
+b) driver.selectFrame() 
+c) driver.gotoFrame() 
+d) driver.frameSwitch() 
+
+Which of these is NOT a Selenium component? 
+a) WebDriver 
+b) Selenium IDE 
+c) Selenium Grid 
+d) Selenium Test Studio  
+
+Which Selenium Grid feature is correct? 
+a) Runs only on Firefox 
+b) Supports parallel execution  
+c) Works without WebDriver 
+d) Runs only on local machine 
+
+To handle alerts in Selenium, you use: 
+a) driver.switchTo().alert()  
+b) driver.getAlert() 
+c) driver.alert() 
+d) driver.popup() 
+
+BDD stands for: 
+a) Behavior-Driven Development  
+b) Bug Detection Design 
+c) Build-Driven Development 
+d) Business Design Documentation 
+
+In BDD, scenarios are written in: 
+a) YAML 
+b) Gherkin  
+c) JSON 
+d) XML 
+
+Which keyword in Gherkin describes preconditions? 
+a) When 
+b) Then 
+c) Given  
+d) And 
+
+In Cucumber BDD, step definitions are: 
+a) Written in the same Gherkin file 
+b) Implemented in code to map Gherkin steps  
+c) Only documentation 
+d) Stored in Jira 
+
+Which is NOT a benefit of BDD? 
+a) Improved communication 
+b) Clear requirements 
+c) Automatic UI design  
+d) Living documentation 
+
+ 
+
+c 
+
+b 
+
+c 
+
+b 
+
+b 
+
+c 
+
+a 
+
+b 
+
+b 
+
+b 
+
+b 
+
+b 
+
+b 
+
+b 
+
+d 
+
+b 
+
+a 
+
+d 
+
+b 
+
+a 
+
+a 
+
+b 
+
+c 
+
+b 
+
+c 
+
+
+MCQs 
+
+What is Selenium IDE? 
+a) A programming language 
+b) A record and playback tool 
+c) A test management system 
+d) A database 
+
+Which command is used to pause Selenium IDE execution until an element is present? 
+a) waitForPagePresent 
+b) waitForElementPresent 
+c) waitForTablePresent 
+d) waitForFieldPresent 
+
+What is the file format for Selenium IDE scripts? 
+a) .xml 
+b) .java 
+c) .html 
+d) .side 
+
+Selenium IDE commands are also known as? 
+a) Selenium scripts 
+b) Selenese 
+c) Selenium WebDriver 
+d) TestNG 
+
+Which Selenium IDE command is used for verification of page titles? 
+a) verifyPage 
+b) verifyTitle 
+c) assertTitlePresent 
+d) checkTitle 
+
+Which method is used to enter text in an input field in Selenium WebDriver? 
+a) setText() 
+b) sendKeys() 
+c) type() 
+d) enterText() 
+
+Selenium WebDriver supports which of the following languages? 
+a) Java 
+b) Python 
+c) C# 
+d) All of the above 
+
+What is the purpose of the click() method in WebDriver? 
+a) To perform a click on a web element 
+b) To clear input field 
+c) To hover on an element 
+d) To select an option 
+
+How can you switch control to a new browser window? 
+a) focus() 
+b) switchTo().window() 
+c) jumpTo() 
+d) windowHandle() 
+
+Which locator type is fastest and most reliable in Selenium WebDriver? 
+a) XPath 
+b) CSS Selector 
+c) ID 
+d) Class Name 
+
+What is Selenium Grid used for? 
+a) Building test reports 
+b) Running tests in parallel across different environments 
+c) Capturing screenshots 
+d) Managing database connections 
+
+Which of the following is NOT a component of Selenium Grid? 
+a) Hub 
+b) Node 
+c) Test Runner 
+d) Browser 
+
+How do you register a node to a Selenium Grid Hub? 
+a) Using selenium-register command 
+b) Running the node with the hub URL as parameter 
+c) By installing a plugin 
+d) Using a test script 
+
+Which browsers can Selenium Grid run tests on? 
+a) Chrome and Firefox only 
+b) Any browser supported by nodes 
+c) Internet Explorer only 
+d) Safari only 
+
+What is the main advantage of Selenium Grid? 
+a) Ease of coding 
+b) Reduces execution time through parallel testing 
+c) Provides UI for tests 
+d) Controls browser versions 
+
+What BDD framework is commonly used with Selenium? 
+a) JUnit 
+b) TestNG 
+c) Cucumber 
+d) NUnit 
+
+What language is used to write BDD scenarios? 
+a) Java 
+b) Gherkin 
+c) Python 
+d) Ruby 
+
+Which keyword is NOT part of Gherkin syntax? 
+a) Given 
+b) When 
+c) Then 
+d) If 
+
+In BDD, tests are referred to as? 
+a) Test cases 
+b) Scenarios 
+c) Steps 
+d) Units 
+
+How does BDD improve testing? 
+a) Adds more coding 
+b) Encourages collaboration between business and technical teams 
+c) Reduces requirements clarity 
+d) Focuses only on UI testing 
+
+The findElement() method returns: 
+a) A list of elements 
+b) The first matching element 
+c) Null if no element is found 
+d) Boolean 
+
+Which command lets you verify the presence of an element on a page? 
+a) assertPresent() 
+b) assertElementPresent() 
+c) verifyPresent() 
+d) checkElement() 
+
+Selenium IDE scripts can be exported to which of the following languages? 
+a) Python 
+b) Java 
+c) C# 
+d) All of the above 
+
+How can you take a screenshot using WebDriver? 
+a) driver.getScreenshot() 
+b) driver.getScreenshotAs() 
+c) driver.capture() 
+d) driver.snapshot() 
+
+Which type of locator should be avoided for better test performance? 
+a) XPath 
+b) ID 
+c) Name 
+d) CSS Selector 
+
+Which protocol does Selenium WebDriver use to communicate with browsers? 
+a) FTP 
+b) HTTP 
+c) JSON Wire Protocol/WebDriver Protocol 
+d) SOAP 
+
+How do you specify browser capabilities in Selenium Grid? 
+a) Using node-config.json 
+b) DesiredCapabilities object 
+c) Selenium-Grid UI 
+d) Command prompt options 
+
+What happens if a Selenium Grid node goes down during test execution? 
+a) Test always fails 
+b) Tests rerun on other nodes if available 
+c) Hub shuts down 
+d) Hub restarts automatically 
+
+Which Selenium WebDriver wait waits for a condition repeatedly until it is met or timeout occurs? 
+a) Implicit wait 
+b) Explicit wait 
+c) Static wait 
+d) Fluent wait 
+
+Which method is used to close the browser window opened by Selenium WebDriver? 
+a) driver.exit() 
+b) driver.close() 
+c) driver.quit() 
+d) driver.stop() 
+
+ 
+
+ 
+
+Answers 
+
+b) A record and playback tool 
+
+b) waitForElementPresent 
+
+d) .side 
+
+b) Selenese 
+
+b) verifyTitle 
+
+b) sendKeys() 
+
+d) All of the above 
+
+a) To perform a click on a web element 
+
+b) switchTo().window() 
+
+c) ID 
+
+b) Running tests in parallel across different environments 
+
+c) Test Runner 
+
+b) Running the node with the hub URL as parameter 
+
+b) Any browser supported by nodes 
+
+b) Reduces execution time through parallel testing 
+
+c) Cucumber 
+
+b) Gherkin 
+
+d) If 
+
+b) Scenarios 
+
+b) Encourages collaboration between business and technical teams 
+
+b) The first matching element 
+
+b) assertElementPresent() 
+
+d) All of the above 
+
+b) driver.getScreenshotAs() 
+
+a) XPath 
+
+c) JSON Wire Protocol/WebDriver Protocol 
+
+b) DesiredCapabilities object 
+
+b) Tests rerun on other nodes if available 
+
+b) Explicit wait 
+
+b) driver.close() 
+
+ 
