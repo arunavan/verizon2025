@@ -1,0 +1,182 @@
+1.Problem Statement
+
+Create a Signup Page for user registration using HTML5 form elements and built-in validations. The form should include the following fields:
+Full Name (mandatory, only alphabets and spaces allowed)
+Email (mandatory, valid email format)
+Password (mandatory, at least 8 characters, include one uppercase, one lowercase, one digit, and one special character)
+Confirm Password (mandatory, must match password)
+Phone Number (optional, but if entered, must be a 10-digit number)
+Date of Birth (mandatory, user must be 18 years or older)
+Gender (mandatory, radio buttons)
+Terms & Conditions (mandatory, checkbox)
+Requirements:
+Use HTML5 validation attributes like required, pattern, type, minlength, maxlength, and title.
+Provide user-friendly placeholder text and error messages.
+No external JavaScript validation—rely only on HTML5 features.
+Add a Submit button that becomes active only if all validations pass.
+
+
+
+2.Problem Statement
+
+Create a Personal Portfolio Page using HTML5 and CSS3. The page should include:
+Header Section
+A navigation bar with links: Home, About, Projects, Contact.
+Hero Section
+A large heading, a short description, and a "Hire Me" button.
+About Section
+A profile image and a short bio.
+Projects Section
+At least 3 project cards in a grid layout.
+Contact Section
+A simple form with Name, Email, and Message fields.
+Responsive Design
+Adjust layout for desktop and mobile using media queries.
+Extra Requirements:
+Use HTML5 semantic tags (header, section, footer).
+Apply CSS Flexbox/Grid for layout.
+Make navigation links scroll to respective sections (anchor links).
+
+
+Verital  offers prepaid and postpaid connections for their customers. They have planned for various schemes to be offered for the customers opting for these connections. 
+
+ 
+
+Create a webpage “Connection.html” that has the following fields. 
+
+ 
+|SNO|LABEL NAME|COMPONENT NAME|DESCRIPTION| 
+|----|---------|---------------|---------| 
+| 1 |Customer Name | custname | To enter the name of the customer. The text “Enter the customer name” should be displayed by default in the text box. | 
+
+| 2 |Customer Email |	email	| To enter the email-id of the customer. The text “abc@gmail.com" should be displayed by default in the text box. | 
+
+| 3 | Telephone/ Mobile Number | mobile | To enter the mobile number. The mobile number should accept only digits. The text “Enter the Mobile Number" should be displayed by default in the text box. It should contain 10 digits and start with 9/8/7. Input type must be 'text'. | 
+
+| 4 |Connection Type | conntype	| Select the connection type using drop down with  id attribute as “Pre” and “Post”. The attribute id needs to be "connectiontype" | 
+
+| 5 | Scheme Name	| scheme | The scheme options are displayed in radio button and the schemes are Local, STD and FullTalkTime. Have the scheme id attributes as scheme1, scheme2 and scheme3 respectively. | 
+
+| 6 | Connection Duration | duration | The connection duration can be taken for any number of months, Assume min value is 1 and max value is 12. | 
+
+| 7 | Connection Bill Amount | submit | On clicking this button, the connection  bill amount should be calculated. Input type must be 'submit'. | 
+
+| 8 | Reset | clear | On clicking this button, all fields should be reset. Input type must be 'reset'. | 
+
+ 
+
+Create a webpage which contains a minimum of 3 pages The page should contain the login page and registration page along with the details of the plans that telecom company offers. Use hyperlinks, and stylize the page. Usage of CSS is mandatory 
+
+
+ Problem Statement 1: CRBT Subscription UI (HTML & CSS) 
+
+ Title: Design a CRBT Subscription Web Page 
+
+ Description: 
+
+Design a responsive web interface that allows users to: 
+
+Browse and preview different caller tunes 
+
+Subscribe to a selected CRBT 
+
+View current active tune and subscription status 
+
+ Requirements: 
+
+Use HTML5 for page structure 
+
+Use CSS3 for styling and responsiveness 
+
+Display a list of songs (song name, artist, play preview button) 
+
+Add Subscribe/Unsubscribe buttons next to each tune 
+
+Show a status box at the top: "Your Current Tune: [Name]" 
+
+ Objectives: 
+
+Create a clean, user-friendly UI 
+
+Use hover effects for buttons 
+
+Ensure mobile responsiveness using media queries 
+
+
+
+ Problem Statement 2: MNP Request Form UI (HTML & CSS) 
+
+ Title: Build an MNP (Mobile Number Portability) Request Form 
+
+ Description: 
+
+Create a static web form that allows a customer to submit a request for porting their mobile number to another telecom provider. 
+
+ Requirements: 
+
+Use HTML form elements to collect: 
+
+Full Name 
+
+Mobile Number 
+
+Current Operator (dropdown) 
+
+New Operator (dropdown) 
+
+Reason for porting (text area) 
+
+Submit button 
+
+Style the form using CSS 
+
+Display the form in a centered, card-style layout with rounded corners and subtle shadow 
+
+ Objectives: 
+
+Practice using HTML forms and input types 
+
+Apply basic CSS layout techniques (flexbox or grid) 
+
+Ensure the design looks consistent across screen sizes 
+
+ 
+
+
+Coding Question 1: Build Your Profile Card 
+
+Create an HTML page with: 
+
+Your Name and Role inside a card. 
+
+An image (use any picture or avatar). 
+
+A button that says: “Toggle Theme”. 
+
+Style the card with CSS: 
+
+Border, padding, margin. 
+
+Center the card using flexbox. 
+
+Apply different background colors for light and dark modes. 
+
+Add JavaScript: 
+
+On button click, toggle between light and dark themes using classList.toggle(). 
+
+Expected Output: A neat card that changes theme when you click the button. 
+
+ 
+
+Coding Question 2: Student List Renderer 
+
+Create an array of 5 student names in JavaScript. 
+
+Use map() to display them in a list (<ul>). 
+
+Add a button “Add Student” → When clicked, it should prompt for a name and add it to the list. 
+
+ Expected Output: Initially shows 5 students. When a new name is entered, it updates dynamically. 
+
+ 
