@@ -1,0 +1,259 @@
+import React, { useState } from "react";
+
+const FormValidation = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+   const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let tempErrors = {};
+    if (!formData.name) 
+          tempErrors.name = "Name is required";
+    if (!formData.email) {
+      tempErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      tempErrors.email = "Email is not valid";
+    }
+    if (!formData.password) {
+      tempErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      tempErrors.password = "Password must be at least 6 characters long";
+    }
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      alert("Form submitted successfully!");
+      console.log(formData);
+    }
+  };
+
+  return (
+    <div>
+      <h2>React Form Validation</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} />
+          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+        </div>
+        
+        <div>
+          <label>Email:</label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} />
+          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        </div>
+
+        <div>
+          <label>Password:</label>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} />
+          {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default FormValidation;
+
+========================================
+import React, { useState } from "react";
+
+const FormValidation = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    hobbies: [],
+    country: "",
+    terms: false,
+  });
+
+  const [errors, setErrors] = useState({});
+
+  // Validation function
+  const validate = () => {
+    let tempErrors = {};
+
+    if (!formData.name) tempErrors.name = "Name is required";
+    if (!formData.email) {
+      tempErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      tempErrors.email = "Email is not valid";
+    }
+
+    if (!formData.gender) tempErrors.gender = "Gender is required";
+    if (formData.hobbies.length === 0) tempErrors.hobbies = "Select at least one hobby";
+    if (!formData.country) tempErrors.country = "Please select a country";
+    if (!formData.terms) tempErrors.terms = "You must accept the terms";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      if (name === "terms") {
+        setFormData({ ...formData, [name]: checked });
+      } else {
+        let updatedHobbies = [...formData.hobbies];
+        if (checked) {
+          updatedHobbies.push(value);
+        } else {
+          updatedHobbies = updatedHobbies.filter((hobby) => hobby !== value);
+        }
+        setFormData({ ...formData, hobbies: updatedHobbies });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      alert("Form submitted successfully!");
+      console.log(formData);
+    }
+  };
+
+  return (
+    <div>
+      <h2>React Form Validation</h2>
+      <form onSubmit={handleSubmit}>
+        
+        {/* Name Field */}
+        <div>
+          <label>Name:</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} />
+          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+        </div>
+
+        {/* Email Field */}
+        <div>
+          <label>Email:</label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} />
+          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        </div>
+
+        {/* Gender Radio Buttons */}
+        <div>
+          <label>Gender:</label>
+          <input type="radio" name="gender" value="Male" onChange={handleChange} /> Male
+          <input type="radio" name="gender" value="Female" onChange={handleChange} /> Female
+          {errors.gender && <p style={{ color: "red" }}>{errors.gender}</p>}
+        </div>
+
+        {/* Hobbies Checkboxes */}
+        <div>
+          <label>Hobbies:</label>
+          <input type="checkbox" name="hobbies" value="Reading" onChange={handleChange} /> Reading
+          <input type="checkbox" name="hobbies" value="Sports" onChange={handleChange} /> Sports
+          <input type="checkbox" name="hobbies" value="Music" onChange={handleChange} /> Music
+          {errors.hobbies && <p style={{ color: "red" }}>{errors.hobbies}</p>}
+        </div>
+
+        {/* Country Select Box */}
+        <div>
+          <label>Country:</label>
+          <select name="country" value={formData.country} onChange={handleChange}>
+            <option value="">Select</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            <option value="India">India</option>
+          </select>
+          {errors.country && <p style={{ color: "red" }}>{errors.country}</p>}
+        </div>
+
+        {/* Terms and Conditions */}
+        <div>
+          <input type="checkbox" name="terms" checked={formData.terms} onChange={handleChange} /> I accept the terms and conditions
+          {errors.terms && <p style={{ color: "red" }}>{errors.terms}</p>}
+        </div>
+
+        {/* Submit Button */}
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default FormValidation;
+
+
+========================================
+import React, { Component } from 'react';  
+import PropTypes from 'prop-types';  
+class App extends React.Component {  
+     render() {  
+      return (  
+          <div>  
+              <h1>ReactJS Props validation example</h1>  
+              <table>  
+                  <tr>  
+                      <th>Type</th>  
+                      <th>Value</th>  
+                      <th>Valid</th>  
+                  </tr>  
+                <tr>  
+                      <td>Array</td>  
+                      <td>{this.props.propArray}</td>  
+                      <td>{this.props.propArray ? "true" : "False"}</td>  
+                  </tr>  
+                  <tr>  
+                      <td>Boolean</td>  
+                      <td>{this.props.propBool ? "true" : "False"}</td>  
+                      <td>{this.props.propBool ? "true" : "False"}</td>  
+                  </tr>  
+                  <tr>  
+                      <td>Function</td>  
+                      <td>{this.props.propFunc(5)}</td>  
+                      <td>{this.props.propFunc(5) ? "true" : "False"}</td>  
+                  </tr>  
+                  <tr>  
+                      <td>String</td>  
+                      <td>{this.props.propString}</td>  
+                      <td>{this.props.propString ? "true" : "False"}</td>  
+                  </tr>  
+                  <tr>  
+                      <td>Number</td>  
+                      <td>{this.props.propNumber}</td>  
+                      <td>{this.props.propNumber ? "true" : "False"}</td>  
+                  </tr>  
+             </table>  
+        </div>  
+        );  
+   }  
+}  
+App.propTypes = {  
+    propArray: PropTypes.array.isRequired,  
+    propBool: PropTypes.bool.isRequired,  
+    propFunc: PropTypes.func,  
+    propNumber: PropTypes.number,  
+    propString: PropTypes.string,   
+}  
+App.defaultProps = {  
+    propArray: [],  
+    propBool: false,  
+    propFunc: function(x){return x*x},  
+    propNumber: "kkk",  
+    propString: 99,  
+}  
+export default App;  
