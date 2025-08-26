@@ -1,0 +1,89 @@
+import React, {Component}  from 'react'
+
+const numbers = [1, 2, 3, 4, 5];
+const list = [
+  {
+    id: 'a',
+    firstname: 'Robin',
+    lastname: 'Wieruch',
+    year: 1988,
+  },
+  {
+    id: 'b',
+    firstname: 'Dave',
+    lastname: 'Davidds',
+    year: 1990,
+  },
+];
+function ComplexList() {
+  return (
+  <ul>
+    {list.map(x => (
+      <li key={x.id}> <div>{x.id}</div> <div>{x.firstname}</div> <div>{x.lastname}</div>
+        <div>{x.year}</div>
+      </li>
+    ))}
+  </ul>
+  );
+
+}
+const initialList = [
+  'Learn React',
+  'Learn Firebase',
+  'Learn GraphQL',
+];
+ 
+function  ListWithAddItem () {
+  const [value, setValue] = React.useState('');
+  const [list, setList] = React.useState(initialList); //setstate
+ 
+  const handleChange = event => {
+    setValue(event.target.value);
+  };
+const handleSubmit = event => {
+    if (value) {
+      setList(list.concat(value));
+    }
+ 
+    setValue('');
+ 
+    event.preventDefault();
+  };
+ 
+  return (
+    <div>
+      <ul>
+        {list.map(item => (   <li key={item}>{item}</li>
+        ))}
+      </ul>
+<form onSubmit={handleSubmit}>
+        <input type="text" value={value} onChange={handleChange} />
+        <button type="submit">Add Item</button>
+      </form>
+    </div>
+  );
+        }
+
+function NumberList(props) {
+  const numbers = props.numbers;
+
+
+  const listItems = numbers.map((number) =>    <li>{number}</li>  );
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+class App extends Component{    
+   render(){   
+       return(   
+           <div>   
+                  <NumberList numbers={numbers} />
+                  <hr/>
+                  <br/>
+                  <ComplexList/>
+                  <ListWithAddItem/>
+           </div>         
+           );   
+   }   
+}   
+export default App;
