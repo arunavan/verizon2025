@@ -1,0 +1,39 @@
+1.
+
+Problem Statement: Registration Form in React
+
+You are required to build a user registration form using React. The form should collect the following details from the user:
+
+Full Name (Text input, required, minimum 3 characters)
+
+Email (Email input, required, must be a valid email format)
+
+Password (Password input, required, minimum 6 characters)
+
+Confirm Password (Password input, must match the password field)
+
+Gender (Radio buttons: Male, Female, Other)
+
+Country (Dropdown with at least 5 country options)
+
+Terms & Conditions (Checkbox – must be checked before submission)
+
+Requirements:
+
+Form Validation
+
+Show error messages if fields are invalid (e.g., "Email is not valid", "Passwords do not match").
+
+Disable the Submit button until all fields are valid.
+
+State Management
+
+Use React useState to manage form values and validation.
+
+Form Submission
+
+On successful submission, display a success message with the entered user details (except password).
+
+
+
+2.
