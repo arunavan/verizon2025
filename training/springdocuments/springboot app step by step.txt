@@ -1,0 +1,72 @@
+build.gradle
+=============
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.1.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.training'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+application.properties
+=================
+spring.application.name=springboot2
+server.port=8081
+
+
+Customercontroller
+==================
+package com.training.springboot2;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CustomerController {
+
+	
+	@GetMapping("/customer")
+	public String greet() {
+		return "welcome to SpringBoot";
+	}
+}
+
+
+=======
+package com.training.springboot2;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Springboot2Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Springboot2Application.class, args);
+	}
+
+}
+

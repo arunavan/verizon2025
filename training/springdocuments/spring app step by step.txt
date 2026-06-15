@@ -1,0 +1,110 @@
+<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.2.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.2.0.RELEASE</version>
+		</dependency>
+
+
+===beans.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+		default-lazy-init="true">
+
+
+
+	<bean id="course" class="com.training.Course"></bean>
+	
+</beans>
+
+
+-----bean
+
+package com.training;
+
+public class Course {
+  Integer id;
+  String name;
+	public Course() {
+		this.id=101;
+		this.name="java";
+	}
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", name=" + name + "]";
+	}
+	
+
+}
+
+========app.java
+package com.training;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.var.javaconfig.SpringConfig1;
+
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+    //	Course c=new Course();
+    //	System.out.println(c);
+    	
+    	//BeanFactory ioc=new XMLBeanFactory(new FileSystemResource("C:\\javaworkspace\\insight\\springiocapp1\\src\\main\\java\\com\\insight\\springiocapp1\\beans.xml"));
+    //	ClassPathXmlApplicationContext ioc = new ClassPathXmlApplicationContext(
+	//			"beans.xml");
+    	
+    	AnnotationConfigApplicationContext ioc = new AnnotationConfigApplicationContext(SpringConfig.class);
+   	 
+    	Course c=(Course)ioc.getBean(Course.class);
+    	Course c1=(Course)ioc.getBean(Course.class);
+    	System.out.println(c);
+    	System.out.println(c1);  //default singleton, prototype
+    	System.out.println(c.hashCode()+"  "+c1.hashCode());
+    	ioc.close();
+    	
+    	
+    
+    }
+}
+
+
+
+=============springboot
+https://start.spring.io/
+
+
+
+
+
+package com.training;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+@Configuration
+public class SpringConfig {
+
+	
+	@Bean
+	@Scope("prototype")
+	public Course getCourse() {
+		return new Course(102,"oracle");
+	}
+	
+}
+
